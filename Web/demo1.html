@@ -1,0 +1,82 @@
+<html>
+    <head>
+<script src="jquery-3.3.1.js"></script>
+    </head>
+<body>
+
+    <h2>The XMLHttpRequest Object</h2>
+    <button type="button" onclick="Login()">Login</button>
+    <button type="button" onclick="WeatherInfo()">WeatherInfo</button>
+
+    <button type="button" onclick="GetValueWithToken()">GetValueWithToken</button>
+    <button type="button" onclick="SubmitData()">Post Token</button>
+    <p id="demo"></p>
+
+    <script>
+        var token;
+        function Login() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "https://localhost:44342/api/Login?username=abc&pass=123");
+            xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xhttp.setRequestHeader('Content-type', 'application/json');
+            xhttp.onload = function () {
+                token = this.responseText;
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+           
+            xhttp.send();
+        }
+        function WeatherInfo() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "https://localhost:44342/WeatherForecast");
+            xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xhttp.setRequestHeader('Content-type', 'application/json');
+            xhttp.onload = function () {
+
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+            
+            xhttp.send();
+        }
+        function GetValueWithToken() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "https://localhost:44342/api/Login/GetValue?token=" + token);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.onload = function () {
+
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+           
+            xhttp.send();
+        }
+        function submit() {
+            var data = new FormData();
+            data.append('user', 'person');
+            data.append('pwd', 'password');
+            data.append('organization', 'place');
+            data.append('requiredkey', 'key');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'somewhere', true);
+            xhr.onload = function () {
+                // do something to response
+                console.log(this.responseText);
+            };
+            xhr.send(data);
+        }
+        function SubmitData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://localhost:44342/api/Login/Post', true);
+            xhr.setRequestHeader('Authorization','Bearer '+token);
+           
+            xhr.onload = function () {
+                // do something to response
+                document.getElementById("demo").innerHTML = this.responseText;
+                console.log(this.responseText);
+            };
+            xhr.send();
+        }
+    </script>
+
+</body>
+</html>

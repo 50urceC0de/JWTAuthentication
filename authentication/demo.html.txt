@@ -1,0 +1,46 @@
+<html>
+<body>
+
+<h2>The XMLHttpRequest Object</h2>
+<button type="button" onclick="loadDoc()">Request data</button>
+
+<p id="demo"></p>
+
+<script>
+function loadDoc() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+  xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford");
+  xhttp.send();
+}
+function submit(){
+var data = new FormData();
+data.append('user', 'person');
+data.append('pwd', 'password');
+data.append('organization', 'place');
+data.append('requiredkey', 'key');
+
+var xhr = new XMLHttpRequest();
+xhr.open('POST', 'somewhere', true);
+xhr.onload = function () {
+    // do something to response
+    console.log(this.responseText);
+};
+xhr.send(data);
+}
+function SubmitData(){
+var xhr = new XMLHttpRequest();
+xhr.open('POST', 'somewhere', true);
+xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xhr.onload = function () {
+    // do something to response
+    console.log(this.responseText);
+};
+xhr.send('user=person&pwd=password&organization=place&requiredkey=key');
+}
+</script>
+ 
+</body>
+</html>
